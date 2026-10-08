@@ -1,75 +1,35 @@
-# React + TypeScript + Vite
+# 🇳🇬 Nigerian Postcode Lookup Widget
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight React + TypeScript widget that lets anyone search Nigerian postcodes by area, LGA, or code — built on the NIPOST national postcode API.
 
-Currently, two official plugins are available:
+## 🎯 Problem
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Nigeria's new alphanumeric postcode system is a national asset, but most developers and businesses don't have an easy way to integrate it into their products. Addresses remain hard to standardize, deliveries get delayed, and emergency services struggle to locate people.
 
-## React Compiler
+## 💡 Solution
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+A clean, embeddable React widget that:
+- Searches postcodes by area name, LGA, or postcode code
+- Returns structured JSON (postcode, area, LGA, state)
+- Includes a copy-to-clipboard button
+- Works on mobile and desktop
+- Is open source and free to use
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Frontend:** React, TypeScript, Axios
+- **API:** NIPOST Postcode API (`https://api.postcode.gov.ng/v1`)
+- **Styling:** Custom CSS (no dependencies)
+- **Hosting:** Netlify
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🚀 Live Demo
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+[https://lawal-postcode-lookup.netlify.app](https://lawal-postcode-lookup.netlify.app)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🔌 How Developers Can Use This
 
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+```bash
+git clone https://github.com/bishopkhadir/postcode-lookup
+cd postcode-lookup
+npm install
+npm run dev
