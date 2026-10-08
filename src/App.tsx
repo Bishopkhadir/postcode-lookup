@@ -2,7 +2,6 @@ import { useState, type FormEvent } from 'react';
 import axios from 'axios';
 import './App.css';
 
-// 🔧 CHANGE THESE WHEN YOU GET YOUR REAL API KEY
 const USE_MOCK = true;
 const API_BASE = 'https://api.postcode.gov.ng/v1';
 const API_KEY = 'PASTE_YOUR_KEY_HERE';
@@ -40,7 +39,6 @@ function App() {
 
     try {
       if (USE_MOCK) {
-        // MOCK DATA (works offline)
         await new Promise(r => setTimeout(r, 500));
         const found = mockData.find(
           p =>
@@ -51,7 +49,6 @@ function App() {
         if (found) setResult(found);
         else setError('No postcode found. Try "Ikeja" or "100271"');
       } else {
-        // REAL API (needs a valid key)
         const res = await axios.get(`${API_BASE}/lookup`, {
           params: { code: query },
           headers: { 'X-API-Key': API_KEY },
@@ -74,53 +71,81 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <header>
-        <h1>🇳🇬 Nigerian Postcode Lookup</h1>
-        <p>Find your postal code by area, street, or LGA</p>
-      </header>
+    <div className="container-fluid py-4 py-md-5">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-10 col-lg-7 col-xl-6">
+          <div className="card shadow-lg border-0 rounded-4">
+            <div className="card-body p-4 p-md-5">
+              <div className="text-center mb-4">
+                <h1 className="h3 fw-bold mb-2">🇳🇬 Nigerian Postcode Lookup</h1>
+                <p className="text-muted small mb-0">
+                  Find your postal code by area, street, or LGA
+                </p>
+              </div>
 
-      <form onSubmit={handleSearch} className="search-form">
-        <input
-          type="text"
-          placeholder="Enter area, street, or postcode..."
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Searching...' : 'Search'}
-        </button>
-      </form>
+              <form onSubmit={handleSearch} className="mb-4">
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control form-control-lg"
+                    placeholder="Enter area, street, or postcode..."
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                  />
+                  <button
+                    type="submit"
+                    className="btn btn-success btn-lg px-4"
+                    disabled={loading}
+                  >
+                    {loading ? '...' : 'Search'}
+                  </button>
+                </div>
+              </form>
 
-      {error && <p className="error">{error}</p>}
+              {error && (
+                <div className="alert alert-danger text-center">{error}</div>
+              )}
 
-      {result && (
-        <div className="result">
-          <div className="result-row">
-            <span className="label">Postcode</span>
-            <span className="value code">{result.code}</span>
+              {result && (
+                <div className="alert alert-light border rounded-3 p-3">
+                  <div className="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                    <span className="text-muted small">Postcode</span>
+                    <span className="fw-bold text-success fs-5 font-monospace">
+                      {result.code}
+                    </span>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                    <span className="text-muted small">Area</span>
+                    <span className="fw-semibold">{result.area}</span>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                    <span className="text-muted small">LGA</span>
+                    <span className="fw-semibold">{result.lga}</span>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <span className="text-muted small">State</span>
+                    <span className="fw-semibold">{result.state}</span>
+                  </div>
+                  <button
+                    className="btn btn-success w-100"
+                    onClick={copyToClipboard}
+                  >
+                    {copied ? '✅ Copied!' : '📋 Copy Postcode'}
+                  </button>
+                </div>
+              )}
+
+              <p className="text-center text-muted small mb-0">
+                * Currently uses mock data pending NIPOST API access
+              </p>
+            </div>
           </div>
-          <div className="result-row">
-            <span className="label">Area</span>
-            <span className="value">{result.area}</span>
-          </div>
-          <div className="result-row">
-            <span className="label">LGA</span>
-            <span className="value">{result.lga}</span>
-          </div>
-          <div className="result-row">
-            <span className="label">State</span>
-            <span className="value">{result.state}</span>
-          </div>
-          <button className="copy-btn" onClick={copyToClipboard}>
-            {copied ? '✅ Copied!' : '📋 Copy Postcode'}
-          </button>
+
+          <p className="text-center text-muted small mt-4 mb-0">
+            Built with the NIPOST Postcode API
+          </p>
         </div>
-      )}
-
-      <footer>
-        <p>Built with the NIPOST Postcode API</p>
-      </footer>
+      </div>
     </div>
   );
 }
